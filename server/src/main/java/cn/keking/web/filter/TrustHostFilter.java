@@ -36,6 +36,9 @@ public class TrustHostFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         String url = getSourceUrl(request);
         if(url != null){
+            if(url.startsWith("http")){
+                url = Base64Utils.encodeToString(url.getBytes());
+            }
             url = new String(Base64Utils.decodeFromString(url), StandardCharsets.UTF_8);
         }
         String host = getHost(url);
